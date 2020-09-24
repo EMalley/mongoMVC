@@ -1,0 +1,25 @@
+{
+  "name": "webupdate",
+  "version": "1.0.0",
+  "description": "simple knowlege base app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EMalley/WebUpdate.git"
+  },
+  "author": "Eric Malley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EMalley/WebUpdate/issues"
+  },
+  "homepage": "https://github.com/EMalley/WebUpdate#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.6",
+    "pug": "^3.0.0"
+  }
+}
