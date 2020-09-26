@@ -18,10 +18,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 //middleware for body parser//  
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 ////////////
+
+//set public folder as static
+app.use(express.static(path.join(__dirname, "public")));
 
 ///////////////////////////////////////
 //check connection
@@ -35,7 +38,8 @@ db.on('error', function (err) {
 ///////////////////////////////////////
 
 //bring in models
-var Article = require('./models/article')
+var Article = require('./models/article');
+const { dirname } = require('path');
 
 //home route
 app.get('/', function (req, res) {
@@ -56,7 +60,17 @@ app.get('/articles/add', function (req, res) {
     res.render('addArticle', {
         title: 'Add Articles'
     })
-})
+});
+
+//get single artilce route
+app.get('/article/:id',function(req,res){
+    Article.findById(req.params.id, function(err, article){
+        res.render('article',{
+            article:article
+        })
+        return
+    });
+});
 
 //add Submit POST ROUTE
 app.post('/articles/add', function (req, res) {
