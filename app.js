@@ -63,14 +63,26 @@ app.get('/articles/add', function (req, res) {
 });
 
 //get single artilce route
-app.get('/article/:id',function(req,res){
-    Article.findById(req.params.id, function(err, article){
-        res.render('article',{
-            article:article
+app.get('/article/:id', function (req, res) {
+    Article.findById(req.params.id, function (err, article) {
+        res.render('article', {
+            article: article
         })
         return
     });
 });
+
+//load edit form
+app.get('/article/edit/:id', function (req, res) {
+    Article.findById(req.params.id, function (err, article) {
+        res.render('edit_article', {
+            title: "Edit Article",
+            article: article
+        })
+        return
+    });
+});
+
 
 //add Submit POST ROUTE
 app.post('/articles/add', function (req, res) {
@@ -80,6 +92,37 @@ app.post('/articles/add', function (req, res) {
     article.body = req.body.body;
 
     article.save(function (err) {
+        if (err) {
+            console.log(err);
+            return;
+        } else {
+            res.redirect('/')
+        }
+    })
+});
+
+
+app.delete('/article/:id', function (req, res) {
+    let query = { _id: req.params.id }
+    Article.remove(query, function (err) {
+        if (err) {
+            console.log(err)
+        };
+        res.send("Success")
+    })
+
+})
+
+//Update Submit POST ROUTE
+app.post('/articles/edit/:id', function (req, res) {
+    var article = {};
+    article.title = req.body.title;
+    article.author = req.body.author;
+    article.body = req.body.body;
+
+    var query = { _id: req.params.id }
+
+    Article.update(query, article, function (err) {
         if (err) {
             console.log(err);
             return;
